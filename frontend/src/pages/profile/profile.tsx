@@ -1,12 +1,23 @@
-import { DataProfile } from "#/components";
-import { ButtonSignout } from "#/components/buttonSignout";
+import { observer } from 'mobx-react-lite';
+import Header from '#/components/formHeader';
+import { DataProfile } from '#/components';
+import { ButtonSignout } from '#/components/buttonSignout';
+import { useAuth } from '#/context/AuthContext';
+import './styles.css';
 
-export const Perfil = () => {
-
+const ProfilePage = () => {
+  const { user } = useAuth();
   return (
-    <main style={{backgroundColor: '#F1F3F4', paddingTop: '21px'}} className="minHeight-main flex justify-between flex-col px-4">
-        <DataProfile />
+    <>
+      <Header routerLink="/dashboard" title="Mi Perfil" />
+      <main className="min__height-main flex justify-between flex-col px-4 profile__design bg-white">
+        {user && <DataProfile user={user} />}
         <ButtonSignout />
-    </main>
+      </main>
+    </>
   );
 };
+
+export const Profile = observer(ProfilePage);
+
+export default Profile;

@@ -1,15 +1,10 @@
-require('dotenv').config()
-import userRoutes from './routes/user'
-import mesaRoutes from './routes/mesa'
-import denunciaRoutes from './routes/denuncia'
-import fiscalizarRoutes from './routes/fiscalizar'
-import { bootstrap } from './/bootstrap'
+import { bootstrap } from './bootstrap';
+import routes from './routes';
+import config from './config';
 
 const app = bootstrap()
+const { port } = config
 
-app.use('/api', userRoutes)
-app.use('/api', mesaRoutes)
-app.use('/api', denunciaRoutes)
-app.use('/api', fiscalizarRoutes)
-const port = process.env.PORT || 3000
-app.listen(port, () => console.log(`Server up and running. \nSwagger UI running at http://localhost:${port}/api-docs`))
+routes.forEach(({ prefix, router }) => app.use(prefix, router));
+
+app.listen(port, () => console.log(`Server up and running. \nSwagger UI running at http://localhost:${port}/api-docs`));
